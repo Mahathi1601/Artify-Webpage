@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome to Mahathi's Art Store</title>
+  <link rel="stylesheet" href="styl.css"/>
+</head>
+<body>
+  <h1>Welcome to Mahathi's Art World 🎨</h1>
+  <p>Click the button below to enter the store and explore beautiful mandalas and sketches!</p>
+  <button id="enterBtn">Enter Store</button>
+  <script>
+    const session = JSON.parse(localStorage.getItem('storedData'));
+    document.getElementById('enterBtn').onclick = () => {
+      if(session&& session.username){
+        window.location.href='store.html';
+      }else{
+        window.location.href='signup.html';
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KalaaNest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Mahathi's Art World 🎨</h1>
+        <div class="headerR">
+            <span id="hi"></span>
+            <button onclick="CartFxn()"><i class="fa-solid fa-cart-shopping"> </i>Cart(<span id="cart-count">0</span>)</button>
+            <button onclick="window.location.href='orders.html'">Orders</button>
+            <button onclick="window.location.href='profile.html'">Profile</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </header>
+    <section class="gallery" id="gallery"></section>
+    <section class="cart" id="cart">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <p>Total: ₹<span id="total-price">0</span></p>
+        <button onclick="checkout()">Checkout</button>
+    </section>
+    <section class="contact-section">
+    <div class="contact-card">
+        <h2>Contact US</h2>
+        <p>If you love my art or have any questions, feel free to reach out!</p>
+        <p><i class="fa-solid fa-envelope"></i><strong> Email :</strong> <a href="mailto:mahasabbani16@gmail.com">mahasabbani16@gmail.com</a></p>
+        <p><i class="fa-brands fa-instagram"></i><strong> Instagram:</strong> <a href="https://www.instagram.com/zentangle_by_maha/" target="_blank">@zentangle_by_maha</a></p>
+    </div>
+    </section>
+    <script src="app.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>

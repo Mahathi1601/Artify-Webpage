@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | KalaaNest</title>
+    <link rel="stylesheet" href="enter.css"/>
+</head>
+<body>
+    <div class="form">
+        <h2>Welcome <span id="u"></span></h2>
+        <p><b>Email:</b> <span id="e"></span></p>
+        <div class="btns">
+            <button onclick="window.location.href='store.html'">Go to Store</button>
+            <button onclick="window.location.href='orders.html'">My Orders</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+    <script src="auth.js"></script>
+    <script>
+        function init(){
+            requireAuth();
+            const user = getUser();
+            const session = getSession();
+            document.getElementById('u').textContent=session?session.username:'Guest';
+            document.getElementById('e').textContent=user?user.email:'-';
+        }
+        window.onload=init;
+    </script>
+</body>
+</html>
