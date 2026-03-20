@@ -1,16 +1,402 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Orders | KalaaNest</title>
-    <link rel="stylesheet" href="style.css">
+<title>Artify - Orders</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* PAGE */
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #f9f9f9, #d4f1f4);
+  margin: 0;
+  padding: 0;
+}
+/* TITLE */
+.title{
+    text-align:center;
+    margin:40px 0;
+}
+
+.title h1{
+    color:#000;
+    font-size:40px;
+}
+
+.title p{
+    color:#555;
+    font-size:16px;
+}
+
+
+/* ORDER CARD */
+.order-card{
+    width:80%;
+    margin:30px auto;
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+.order-header{
+    display:flex;
+    justify-content:space-between;
+    border-bottom:1px solid #eee;
+    padding-bottom:10px;
+}
+
+.order-header span{
+    font-size:12px;
+    color:#9F8383;
+}
+
+.amount{
+    color:#574964;
+    font-weight:bold;
+}
+
+/* PRODUCT */
+.product{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:20px 0;
+}
+
+.left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.left img{
+    width:70px;
+    height:70px;
+    border-radius:12px;
+    object-fit:cover;
+}
+
+.left h4{
+    margin:0;
+    color:#574964;
+}
+
+.left p{
+    margin:3px 0;
+    color:#9F8383;
+    font-size:14px;
+}
+
+.right{
+    text-align:right;
+}
+
+.right h4{
+    margin:0;
+    color:#574964;
+}
+
+.right p{
+    font-size:12px;
+    color:#9F8383;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    margin-top:100px;
+}
+
+.empty i{
+    font-size:60px;
+    color:#C8AAAA;
+}
+
+.empty h2{
+    color:#574964;
+}
+
+.empty button{
+    background:#FFDAB3;
+    border:none;
+    padding:12px 25px;
+    border-radius:20px;
+    cursor:pointer;
+}
+.order-header div:last-child strong {
+    background: #e8f5e9;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+
+/* FOOTER (your original) */
+.footer{
+  background:#222;
+  color:#ccc;
+  padding:40px 20px 20px;
+  margin-top:40px;
+}
+
+.footer-container{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr); 
+  gap:70px; 
+  max-width:1100px;
+  margin:auto;
+}
+
+.footer-col h3{
+  color:#fff;
+  margin-bottom:10px;
+}
+
+.logo{
+  color:#1abc9c;
+}
+
+.footer-col p,
+.footer-col a{
+  font-size:14px;
+  color:#ccc;
+  margin:6px 0;
+  text-decoration:none;
+}
+
+.footer-col a:hover{
+  color:#1abc9c;
+}
+
+.socials i{
+  margin-right:10px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.socials i:hover{
+  color:#1abc9c;
+}
+
+.footer hr{
+  border:0;
+  border-top:1px solid #444;
+  margin:20px 0;
+}
+
+.footer-bottom{
+  text-align:center;
+  font-size:14px;
+}
+
+</style>
 </head>
+
 <body>
-    <div class="fom">
-        <h2>My Previous Orders</h2>
-        <div id="orders-list"></div>
-        <a href="index.html"><button>Back to Home</button></a>
+
+<header>
+        <h1>Artify🎨</h1>
+        <div class="headerR">
+            <span id="hi"></span>
+            <button onclick="window.location.href='store.html'">Home</button>
+           <button onclick="window.location.href='orders.html'">Orders</button>
+           <button onclick="window.location.href='wishlist.html'">
+            <i class="fa fa-heart"></i> Wishlist
+        </button>
+            <button onclick="window.location.href='profile.html'">Profile</button>
+            <button onclick="window.location.href='cart.html'">
+    <i class="fa-solid fa-cart-shopping"></i>
+    Cart(<span id="cart-count">0</span>)
+</button>
+<button onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+<div class="title">
+    <h1>Order History</h1>
+    <p>Track and view your previous purchases</p>
+</div>
+
+<div id="ordersContainer"></div>
+
+<footer class="footer">
+
+<div class="footer-container">
+
+<!-- About -->
+<div class="footer-col">
+<h2 class="logo">ARTIFY</h2>
+<p>
+Artify is my personal art store where I showcase and sell my handmade artworks, 
+including mandalas, sketches, and paintings. Each piece is created with passion and creativity.
+</p>
+<br>
+<div class="socials">
+<a href="https://www.instagram.com/zentangle_by_maha/" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="mailto:mahasabbani16@gmail.com"><i class="fa fa-envelope"></i></a>
+</div>
+</div>
+
+<!-- Quick Links -->
+<div class="footer-col">
+<h3>Quick Links</h3>
+<a href="index.html">Home</a><br>
+<a href="wishlist.html">Wishlist</a><br>
+<a href="profile.html">My Profile</a><br>
+<a href="orders.html">Orders</a><br>
+</div>
+
+<!-- Categories -->
+<div class="footer-col">
+<h3>Categories</h3>
+<p>Sketches</p>
+<p>Mandalas</p>
+<p>Paintings</p>
+<p>Custom Artwork</p>
+</div>
+
+
+<!-- Contact -->
+<div class="footer-col">
+<h3>Get in Touch</h3>
+<p><i class="fa fa-envelope"></i><a href="mailto:mahasabbani16@gmail.com"> mahathi16@gmail.com</a></p>
+<p><i class="fab fa-instagram"></i><a href="https://www.instagram.com/zentangle_by_maha/" target="_blank"> zentangle_by_maha</a></p>
+<p><i class="fa fa-phone"></i> <a href="tel:+919876543210"> +91 98765 43210</a></p>
+<p><i class="fa fa-map-marker-alt"></i> Hyderabad, India</p>
+</div>
+
+</div>
+
+<hr>
+
+<p class="footer-bottom">© 2026 Artify | Created by Mahathi Sabbani</p>
+
+</footer>
+<script>
+const container = document.getElementById("ordersContainer");
+
+// GET DATA
+function getOrders() {
+    return JSON.parse(localStorage.getItem("orders")) || [];
+}
+
+// FORMAT DATE (clean)
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+}
+
+// CALCULATE TOTAL
+function calculateTotal(items) {
+    return items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+}
+
+// CREATE PRODUCT HTML
+function createProductHTML(item) {
+    return `
+    <div class="product">
+        <div class="left">
+            <img src="${item.image}">
+            <div>
+                <h4>${item.name}</h4>
+                <p>Qty: ${item.qty}</p>
+            </div>
+        </div>
+
+        <div class="right">
+            <h4>₹${item.price}</h4>
+        </div>
     </div>
-    <script src="orders.js"></script>
+    `;
+}
+
+// CREATE ORDER CARD
+function createOrderCard(order) {
+
+    const total = calculateTotal(order.items);
+
+    const itemsHTML = order.items.map(createProductHTML).join("");
+
+    return `
+    <div class="order-card">
+
+        <div class="order-header">
+
+            <div>
+                <span>ORDER ID</span><br>
+                <strong>#${order.id}</strong>
+            </div>
+
+            <div>
+                <span>DATE</span><br>
+                <strong>${formatDate(order.date)}</strong>
+            </div>
+
+            <div>
+                <span>TOTAL AMOUNT</span><br>
+                <strong class="amount">₹${total}</strong>
+            </div>
+
+            <div>
+                <span>STATUS</span><br>
+                <strong style="color:green;">Delivered</strong>
+            </div>
+
+        </div>
+
+        ${itemsHTML}
+
+    </div>
+    `;
+}
+
+// EMPTY STATE
+function renderEmpty() {
+    container.innerHTML = `
+    <div class="empty">
+        <i class="fa-solid fa-box-open"></i>
+        <h2>No orders yet</h2>
+        <button onclick="window.location.href='store.html'">Browse Gallery</button>
+    </div>
+    `;
+}
+
+// MAIN RENDER
+function renderOrders() {
+
+    const orders = getOrders();
+
+    if (orders.length === 0) {
+        renderEmpty();
+        return;
+    }
+
+    container.innerHTML = orders
+        .slice()          // avoid mutation
+        .reverse()        // latest first
+        .map(createOrderCard)
+        .join("");
+}
+
+// INIT
+renderOrders();
+
+</script>
+<script src="app.js"></script>
+<script src="auth.js"></script>
+<script>
+updateCartCount();
+</script>
+
 </body>
 </html>

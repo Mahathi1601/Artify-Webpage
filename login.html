@@ -7,6 +7,9 @@
     <link rel ="stylesheet" href="enter.css"/>
 </head>
 <body>
+     <div class="navbar">
+        <h1>Artify🎨</h1>
+    </div>
     <div class="form">
         <h2>Welcome Back</h2>
        <!-- <h2>Login</h2>  -->
@@ -14,8 +17,77 @@
         <input type="password" id="password" placeholder="Password"/>
         <button onclick="login()">Login</button>
         <p>Don't have an account <a href="signup.html">Sign Up</a></p>
+        <p>Wanna go back ? <a href="enter.html">Back</a></p>
     </div>
-    <script src="login.js"></script>
+    
+<footer class="footer">
+
+<div class="footer-container">
+
+<!-- About -->
+<div class="footer-col">
+<h2 class="logo">ARTIFY</h2>
+<p>
+Artify is my personal art store where I showcase and sell my handmade artworks, 
+including mandalas, sketches, and paintings. Each piece is created with passion and creativity.
+</p>
+<br>
+<div class="socials">
+<a href="https://www.instagram.com/zentangle_by_maha/" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="mailto:mahasabbani16@gmail.com"><i class="fa fa-envelope"></i></a>
+</div>
+</div>
+
+<!-- Quick Links -->
+<div class="footer-col">
+<h3>Quick Links</h3>
+<a href="index.html">Home</a><br>
+<a href="wishlist.html">Wishlist</a><br>
+<a href="profile.html">My Profile</a><br>
+<a href="orders.html">Orders</a><br>
+</div>
+
+<!-- Categories -->
+<div class="footer-col">
+<h3>Categories</h3>
+<p>Sketches</p>
+<p>Mandalas</p>
+<p>Paintings</p>
+<p>Custom Artwork</p>
+</div>
+
+
+<!-- Contact -->
+<div class="footer-col">
+<h3>Get in Touch</h3>
+<p><i class="fa fa-envelope"></i><a href="mailto:mahasabbani16@gmail.com"> mahathi16@gmail.com</a></p>
+<p><i class="fab fa-instagram"></i><a href="https://www.instagram.com/zentangle_by_maha/" target="_blank"> zentangle_by_maha</a></p>
+<p><i class="fa fa-phone"></i> <a href="tel:+919876543210"> +91 98765 43210</a></p>
+<p><i class="fa fa-map-marker-alt"></i> Hyderabad, India</p>
+</div>
+
+</div>
+
+<hr>
+
+<p class="footer-bottom">© 2026 Artify | Created by Mahathi Sabbani</p>
+
+</footer>
+    
+    <script>
+        function login(){
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value;
+    const user = JSON.parse(localStorage.getItem('userData'));
+    if(user && user.username===u && user.password===p){
+        localStorage.setItem('storedData',JSON.stringify({username : u}));
+        alert('Login successful!');
+        window.location.href='store.html';
+    }else{
+        alert("Invalid credentials");
+    }
+    }
+    </script>
     <script src="auth.js"></script>
 </body>
 </html>

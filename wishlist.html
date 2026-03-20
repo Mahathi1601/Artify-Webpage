@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Artify - Wishlist</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* PAGE (same as store) */
+body {
+  font-family: Arial;
+  background: linear-gradient(to right, #f9f9f9, #d4f1f4);
+  margin: 0;
+  padding: 0;
+}
+
+/* HEADER (same as store) */
+header {
+  background-color: #222;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerR button{
+  margin-left:1rem;
+}
+
+/* TITLE */
+.title{
+    text-align:center;
+    margin:40px 0;
+}
+
+.title h1{
+    color:#000;
+    font-size:40px;
+}
+
+.title p{
+    color:#555;
+    font-size:16px;
+}
+
+/* GRID (same layout as store) */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+}
+
+/* IMAGE */
+.card img {
+  width: 95%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* IMAGE CONTAINER */
+.image-box{
+    position: relative;
+}
+
+/* ❤️ HEART ICON (same as store) */
+.heart-icon{
+    position:absolute;
+    top:12px;
+    right:12px;
+    font-size:20px;
+    cursor:pointer;
+    background:white;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+.heart-icon i{
+    color:#aaa;
+}
+
+.heart-icon.active i{
+    color:red;
+}
+
+/* TEXT */
+.card h3{
+    margin:10px 0 5px;
+    font-size:18px;
+    color:#000;
+}
+
+.card p{
+    margin:0;
+    color:#444;
+    font-size:16px;
+}
+
+/* BUTTON (same as store) */
+.card button{
+  margin-top: 10px;
+  background-color: #1abc9c;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background-color: #16a085;
+}
+
+/* EMPTY STATE */
+.empty{
+    text-align:center;
+    margin-top:100px;
+}
+
+.empty i{
+    font-size:60px;
+    color:#aaa;
+}
+
+.empty h2{
+    color:#333;
+    margin-bottom:10px;
+}
+
+.empty button{
+    background:#1abc9c;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.empty button:hover{
+    background:#16a085;
+}
+
+
+/* FOOTER (your original) */
+.footer{
+  background:#222;
+  color:#ccc;
+  padding:40px 20px 20px;
+  margin-top:40px;
+}
+
+.footer-container{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr); 
+  gap:70px; 
+  max-width:1100px;
+  margin:auto;
+}
+
+.footer-col h3{
+  color:#fff;
+  margin-bottom:10px;
+}
+
+.logo{
+  color:#1abc9c;
+}
+
+.footer-col p,
+.footer-col a{
+  font-size:14px;
+  color:#ccc;
+  margin:6px 0;
+  text-decoration:none;
+}
+
+.footer-col a:hover{
+  color:#1abc9c;
+}
+
+.socials i{
+  margin-right:10px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.socials i:hover{
+  color:#1abc9c;
+}
+
+.footer hr{
+  border:0;
+  border-top:1px solid #444;
+  margin:20px 0;
+}
+
+.footer-bottom{
+  text-align:center;
+  font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header>
+        <h1>Artify🎨</h1>
+        <div class="headerR">
+            <span id="hi"></span>
+            <button onclick="window.location.href='store.html'">Home</button>
+           <button onclick="window.location.href='orders.html'">Orders</button>
+           <button onclick="window.location.href='wishlist.html'">
+            <i class="fa fa-heart"></i> Wishlist
+        </button>
+            <button onclick="window.location.href='profile.html'">Profile</button>
+             <button onclick="window.location.href='cart.html'">
+    <i class="fa-solid fa-cart-shopping"></i>
+    Cart(<span id="cart-count">0</span>)
+</button>
+<button onclick="logout()">Logout</button>
+        </div>
+    </header>
+<div class="title">
+    <h1>My Wishlist</h1>
+    <p>Saved artworks you're interested in</p>
+</div>
+
+<div class="gallery" id="wishlist"></div>
+
+<footer class="footer">
+
+<div class="footer-container">
+
+<!-- About -->
+<div class="footer-col">
+<h2 class="logo">ARTIFY</h2>
+<p>
+Artify is my personal art store where I showcase and sell my handmade artworks, 
+including mandalas, sketches, and paintings. Each piece is created with passion and creativity.
+</p>
+<br>
+<div class="socials">
+<a href="https://www.instagram.com/zentangle_by_maha/" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="mailto:mahasabbani16@gmail.com"><i class="fa fa-envelope"></i></a>
+</div>
+</div>
+
+<!-- Quick Links -->
+<div class="footer-col">
+<h3>Quick Links</h3>
+<a href="index.html">Home</a><br>
+<a href="wishlist.html">Wishlist</a><br>
+<a href="profile.html">My Profile</a><br>
+<a href="orders.html">Orders</a><br>
+</div>
+
+<!-- Categories -->
+<div class="footer-col">
+<h3>Categories</h3>
+<p>Sketches</p>
+<p>Mandalas</p>
+<p>Paintings</p>
+<p>Custom Artwork</p>
+</div>
+
+
+<!-- Contact -->
+<div class="footer-col">
+<h3>Get in Touch</h3>
+<p><i class="fa fa-envelope"></i><a href="mailto:mahasabbani16@gmail.com"> mahathi16@gmail.com</a></p>
+<p><i class="fab fa-instagram"></i><a href="https://www.instagram.com/zentangle_by_maha/" target="_blank"> zentangle_by_maha</a></p>
+<p><i class="fa fa-phone"></i> <a href="tel:+919876543210"> +91 98765 43210</a></p>
+<p><i class="fa fa-map-marker-alt"></i> Hyderabad, India</p>
+</div>
+
+</div>
+
+<hr>
+
+<p class="footer-bottom">© 2026 Artify | Created by Mahathi Sabbani</p>
+
+</footer>
+<script>
+
+const container = document.getElementById("wishlist");
+
+function getWishlist(){
+    return JSON.parse(localStorage.getItem("wishlist")) || [];
+}
+
+let wishlist = getWishlist();
+
+// RENDER
+function renderWishlist(){
+
+    if(wishlist.length === 0){
+        container.innerHTML = `
+        <div class="empty">
+            <i class="fa fa-heart"></i>
+            <h2>Your wishlist is empty</h2>
+            <button onclick="window.location.href='store.html'">Browse Store</button>
+        </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = wishlist.map((item,index)=>`
+
+        <div class="card" id="card-${index}">
+
+            <div class="image-box">
+
+                <img src="${item.img}" alt="${item.name}">
+
+                <div class="heart-icon active" onclick="removeItem(${index})">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+
+            </div>
+
+            <h3>${item.name}</h3>
+            <p>₹${item.price}</p>
+
+            <button onclick="addToCart(${index})">
+                <i class="fa fa-shopping-cart"></i> Add to Cart
+            </button>
+
+        </div>
+
+    `).join("");
+}
+
+// REMOVE (smooth)
+function removeItem(index){
+
+    let card = document.getElementById(`card-${index}`);
+
+    card.style.transform = "scale(0.8)";
+    card.style.opacity = "0";
+
+    setTimeout(()=>{
+        wishlist.splice(index,1);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        renderWishlist();
+    },300);
+}
+
+// ADD TO CART
+function addToCart(index){
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let item = wishlist[index];
+
+    let existing = cart.find(c => c.name === item.name);
+
+    if(existing){
+        existing.quantity += 1;
+    } else {
+        cart.push({...item, quantity:1});
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    updateCartCount(); 
+
+    alert("Added to cart!");
+}
+
+// INIT
+renderWishlist();
+
+
+</script>
+<script src="app.js"></script>
+<script src="auth.js"></script>
+
+
+</body>
+</html>

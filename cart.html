@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Artify - Cart</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* PAGE */
+.cart-page{
+    padding:40px;
+}
+
+.cart-title{
+    font-size:40px;
+    margin-bottom:30px;
+    text-align : center;
+    color :#000;
+}
+
+/* LAYOUT */
+.cart-container{
+    display:flex;
+    gap:40px;
+}
+
+/* LEFT */
+.cart-items{
+    flex:2;
+}
+
+/* CARD */
+.cart-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#fff;
+    padding:25px;
+    border-radius:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+.cart-subtitle{
+    text-align:center;
+    color:#555; 
+    margin-bottom:30px;
+    font-size:16px;
+}
+.left{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.left img{
+    width:90px;
+    height:90px;
+    border-radius:15px;
+    object-fit:cover;
+}
+
+.price{
+    color:#1abc9c;
+    font-weight:bold;
+}
+
+.right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+/* QTY */
+.qty{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    background:#f3f3f3;
+    padding:8px 15px;
+    border-radius:30px;
+}
+
+.qty button{
+    border:none;
+    background:none;     /* ❌ removed green */
+    color:#333;          /* dark symbol */
+    font-size:18px;
+    cursor:pointer;
+}
+/* DELETE */
+.delete{
+    color:#aaa;
+    cursor:pointer;
+}
+
+.delete:hover{
+    color:red;
+}
+
+/* RIGHT */
+.summary{
+    flex:1;
+    background:#fff;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.summary h2{
+    margin-bottom:20px;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin:12px 0;
+    font-size:18px;
+}
+
+.total{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.total span:last-child{
+    color:#1abc9c;
+}
+
+.checkout{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    background:#1abc9c;
+    color:white;
+    border:none;
+    border-radius:15px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.checkout:hover{
+    background:#16a085;
+}
+
+.note{
+    margin-top:15px;
+    font-size:13px;
+    color:#777;
+    text-align:center;
+}
+
+.footer{
+  background:#222;
+  color:#ccc;
+  padding:40px 20px 20px;
+  margin-top:40px;
+}
+
+.footer-container{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr); 
+  gap:70px; 
+  max-width:1100px;
+  margin:auto;
+}
+
+.footer-col h3{
+  color:#fff;
+  margin-bottom:10px;
+}
+
+.logo{
+  color:#1abc9c;
+}
+
+.footer-col p,
+.footer-col a{
+  font-size:14px;
+  color:#ccc;
+  margin:6px 0;
+  text-decoration:none;
+}
+
+.footer-col a:hover{
+  color:#1abc9c;
+}
+
+.socials i{
+  margin-right:10px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.socials i:hover{
+  color:#1abc9c;
+}
+
+.footer hr{
+  border:0;
+  border-top:1px solid #444;
+  margin:20px 0;
+}
+
+.footer-bottom{
+  text-align:center;
+  font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+<header>
+        <h1>Artify🎨</h1>
+        <div class="headerR">
+            <span id="hi"></span>
+            <button onclick="window.location.href='store.html'">Home</button>
+           <button onclick="window.location.href='orders.html'">Orders</button>
+           <button onclick="window.location.href='wishlist.html'">
+            <i class="fa fa-heart"></i> Wishlist
+        </button>
+            <button onclick="window.location.href='profile.html'">Profile</button>
+             <button onclick="window.location.href='cart.html'">
+    <i class="fa-solid fa-cart-shopping"></i>
+    Cart(<span id="cart-count">0</span>)
+</button>
+<button onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+<div class="cart-page">
+
+<h2 class="cart-title">Shopping Cart</h2>
+<p class="cart-subtitle">Review and manage your selected artworks</p>
+
+<div class="cart-container">
+
+<!-- LEFT -->
+<div class="cart-items" id="cart-items"></div>
+
+<!-- RIGHT -->
+<div class="summary">
+
+<h2>Order Summary</h2>
+
+<div class="row">
+<span>Subtotal</span>
+<span id="subtotal">0</span>
+</div>
+
+<div class="row">
+<span>Shipping</span>
+<span id="shipping">0</span>
+</div>
+
+<hr>
+
+<div class="row total">
+<span>Total</span>
+<span id="total">0</span>
+</div>
+<button class="checkout" onclick="checkout()">Proceed to Checkout</button>
+
+<p class="note">
+Free shipping on orders over ₹500. Secure checkout powered by Artify.
+</p>
+
+</div>
+
+</div>
+
+</div>
+    
+<footer class="footer">
+
+<div class="footer-container">
+
+<!-- About -->
+<div class="footer-col">
+<h2 class="logo">ARTIFY</h2>
+<p>
+Artify is my personal art store where I showcase and sell my handmade artworks, 
+including mandalas, sketches, and paintings. Each piece is created with passion and creativity.
+</p>
+<br>
+<div class="socials">
+<a href="https://www.instagram.com/zentangle_by_maha/" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="mailto:mahasabbani16@gmail.com"><i class="fa fa-envelope"></i></a>
+</div>
+</div>
+
+<!-- Quick Links -->
+<div class="footer-col">
+<h3>Quick Links</h3>
+<a href="index.html">Home</a><br>
+<a href="wishlist.html">Wishlist</a><br>
+<a href="profile.html">My Profile</a><br>
+<a href="orders.html">Orders</a><br>
+</div>
+
+<!-- Categories -->
+<div class="footer-col">
+<h3>Categories</h3>
+<p>Sketches</p>
+<p>Mandalas</p>
+<p>Paintings</p>
+<p>Custom Artwork</p>
+</div>
+
+<!-- Contact -->
+<div class="footer-col">
+<h3>Get in Touch</h3>
+<p><i class="fa fa-envelope"></i><a href="mailto:mahasabbani16@gmail.com"> mahathi16@gmail.com</a></p>
+<p><i class="fab fa-instagram"></i><a href="https://www.instagram.com/zentangle_by_maha/" target="_blank"> zentangle_by_maha</a></p>
+<p><i class="fa-solid fa-phone"></i> +91 XXXXXXXXXX</p>
+<p><i class="fa fa-map-marker-alt"></i> Hyderabad, India</p>
+</div>
+</div>
+
+<hr>
+
+<p class="footer-bottom">© 2026 Artify | Created by Mahathi Sabbani</p>
+
+</footer>
+<script>
+
+
+// RENDER
+function renderCart(){
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let container = document.getElementById("cart-items");
+    container.innerHTML = "";
+
+    let subtotal = 0;
+
+    if(cart.length === 0){
+        container.innerHTML = "<h3>Your cart is empty</h3>";
+    }
+
+    cart.forEach((item,index)=>{
+
+        subtotal += item.price * item.quantity;
+
+        container.innerHTML += `
+        <div class="cart-card">
+            <div class="left">
+                <img src="${item.img}">
+                <div>
+                    <h3>${item.name}</h3>
+                    <span class="price">₹${item.price}</span>
+                </div>
+            </div>
+
+            <div class="right">
+                <div class="qty">
+                    <button onclick="changeQty(${index}, -1)">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="changeQty(${index}, 1)">+</button>
+                </div>
+
+                <i class="fa fa-trash delete" onclick="removeItem(${index})"></i>
+            </div>
+        </div>
+        `;
+    });
+
+    let shipping = subtotal > 500 ? 0 : 25;
+    let total = subtotal + shipping;
+
+    document.getElementById("subtotal").innerText = "₹" + subtotal;
+    document.getElementById("shipping").innerText = shipping === 0 ? "FREE" : "₹" + shipping;
+    document.getElementById("total").innerText = "₹" + total;
+}
+
+// CHANGE QTY
+function changeQty(index, change){
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart[index].quantity += change;
+
+    if(cart[index].quantity <= 0){
+        cart.splice(index,1);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    renderCart();
+    updateCartCount(); 
+}
+
+// REMOVE
+function removeItem(index){
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.splice(index,1);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    renderCart();
+    updateCartCount(); 
+}
+
+// INIT
+renderCart();
+updateCartCount(); 
+function checkout(){
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if(cart.length === 0){
+        alert("Cart is empty!");
+        return;
+    }
+
+    // CREATE ORDER
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    let newOrder = {
+        id: "ORD" + Date.now(),
+        date: new Date().toDateString(),
+        items: cart.map(item => ({
+            name: item.name,
+            price: item.price,
+            qty: item.quantity,
+            image: item.image
+        }))
+    };
+
+    orders.push(newOrder);
+
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    // CLEAR CART
+    localStorage.removeItem("cart");
+
+    alert("Order placed successfully!");
+
+    // GO TO ORDERS PAGE
+    window.location.href = "orders.html";
+}
+</script>
+<script src="app.js"></script>
+<script src="auth.js"></script>
+<script>
+window.onload = function(){
+    updateCartCount(); // ✅ guaranteed run AFTER everything
+}
+</script>
+
+</body>
+</html>
+

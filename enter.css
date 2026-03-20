@@ -1,71 +1,154 @@
+/* 🔥 BODY */
 body {
-  font-family: Arial , sans-serif;
+  font-family: Arial, sans-serif;
   background: linear-gradient(to right, #f9f9f9, #d4f1f4);
-  display:flex;
-  justify-content:center;
-  align-items :center;
   margin: 0;
   padding: 0;
-  height:100vh;
 }
 
-.form{
-    background : #fff;
-    padding :2rem;
-    border-radius :10px;
-    box-shadow : 0 2px 8px rgba(0,0,0,0.1);
-    text-align:center;
-    max-width : 400px;
-    width :90%;
-    box-sizing: border-box;
-    
+/* 🔥 NAVBAR */
+.navbar {
+  background-color: #222;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.form h2{
-    color:#1abc9c;
+
+
+
+/* 🔥 FORM CONTAINER */
+.form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-sizing: border-box;
+
+  margin: 80px auto; /* centers it properly */
 }
 
-.form input{
-    width:100%;
-    padding: 10px;
-    margin: 0 0 1rem 0;
-    border :1px solid #ccc;
-    border-radius :5px;
-    box-sizing: border-box;
+/* 🔥 HEADING */
+.form h2 {
+  color: #1abc9c;
+  margin-bottom: 20px;
 }
 
+/* 🔥 INPUTS */
+.form input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* 🔥 BUTTON */
 .form button {
-    background-color: #1abc9c;
-    padding :10px 20px;
-    color:white;
-    border:none;
-    border-radius :5px;
-    cursor:pointer;
+  background-color: #1abc9c;
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 120px;
 }
 
-.form button:hover{
-    background-color: #16a085;
+.form button:hover {
+  background-color: #16a085;
 }
 
+/* 🔥 TEXT */
 .form p {
-    font-size:0.9rem;
+  font-size: 0.9rem;
+  margin-top: 15px;
 }
 
-.form a{
-    color:#16a085;
-    text-decoration:none;
+/* 🔥 LINK */
+.form a {
+  color: #16a085;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-.btns{
-
-     display:flex;
-    flex-direction :column;
-    gap:10px;
-    width:200px;
-    margin:auto;
-    align-items:center;
-
+/* 🔥 OPTIONAL BUTTON GROUP (if used) */
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 200px;
+  margin: auto;
+  align-items: center;
 }
-.btns button{
-    width:100%;
+
+.btns button {
+  width: 100%;
+}
+
+
+/* FOOTER (your original) */
+.footer{
+  background:#222;
+  color:#ccc;
+  padding:40px 20px 20px;
+  margin-top:40px;
+}
+
+.footer-container{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr); 
+  gap:70px; 
+  max-width:1100px;
+  margin:auto;
+}
+
+.footer-col h3{
+  color:#fff;
+  margin-bottom:10px;
+}
+
+.logo{
+  color:#1abc9c;
+}
+
+.footer-col p,
+.footer-col a{
+  font-size:14px;
+  color:#ccc;
+  margin:6px 0;
+  text-decoration:none;
+}
+
+.footer-col a:hover{
+  color:#1abc9c;
+}
+
+.socials i{
+  margin-right:10px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.socials i:hover{
+  color:#1abc9c;
+}
+
+.footer hr{
+  border:0;
+  border-top:1px solid #444;
+  margin:20px 0;
+}
+
+.footer-bottom{
+  text-align:center;
+  font-size:14px;
 }
