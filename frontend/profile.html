@@ -196,6 +196,15 @@ hr{
   text-align:center;
   font-size:14px;
 }
+#profile-name {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.info-item p {
+    margin: 4px 0 0;
+    color: #555;
+}
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -227,16 +236,16 @@ hr{
 
 <div class="profile-content">
 
-<img src="https://i.pravatar.cc/150" class="profile-img">
+<img id="profile-pic" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="profile-img">
 
 <div class="profile-header">
 <div>
-<h2>Iris Verania</h2>
-<p>Art Enthusiast & Collector</p>
+<h2 id="profile-name"></h2>
+
 </div>
 
-<button class="edit-btn">
-<i class="fa fa-pen"></i> Edit Profile
+<button class="edit-btn" onclick="window.location.href='edit-profile.html'">
+    <i class="fa fa-pen"></i> Edit Profile
 </button>
 </div>
 
@@ -249,7 +258,7 @@ hr{
 <div class="icon"><i class="fa-solid fa-address-book"></i></div>
 <div>
 <b>Username</b>
-<p>iris_verania</p>
+<p id="profile-username"></p>
 </div>
 </div>
 
@@ -257,7 +266,7 @@ hr{
 <div class="icon"><i class="fa fa-envelope"></i></div>
 <div>
 <b>Email</b>
-<p>mahathi@email.com</p>
+<p id="profile-email"></p>
 </div>
 </div>
 
@@ -265,7 +274,7 @@ hr{
 <div class="icon"><i class="fa fa-map-marker-alt"></i></div>
 <div>
 <b>Address</b>
-<p>Not provided</p>
+<p id="profile-address"></p>
 </div>
 </div>
 
@@ -273,7 +282,7 @@ hr{
 <div class="icon"><i class="fa fa-phone"></i></div>
 <div>
 <b>Phone</b>
-<p>+91 XXXXXXXXXX</p>
+<p id="profile-phone"></p>
 </div>
 </div>
 
@@ -354,6 +363,37 @@ including mandalas, sketches, and paintings. Each piece is created with passion 
 </footer>
 <script src="app.js"></script>
 <script src="auth.js"></script>
+<script>
+window.onload = function () {
+    let user = JSON.parse(localStorage.getItem("user"));
+
+// protect page
+if (!user) {
+    window.location.href = "login.html";
+} else {
+
+    document.getElementById("profile-name").innerText = user.name || "No Name";
+
+    // ✅ FIXED USERNAME
+    document.getElementById("profile-username").innerText = user.username || "No Username";
+
+    document.getElementById("profile-email").innerText = user.email || "No Email";
+    document.getElementById("profile-phone").innerText = user.phone || "Not provided";
+    document.getElementById("profile-address").innerText = user.address || "Not provided";
+
+    document.getElementById("profile-pic").src =
+        user.profilePic || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
+    document.getElementById("hi").innerText = `Hi, ${user.name || "User"} 👋`;
+}
+}
+// logout
+function logout() {
+    localStorage.removeItem("user");
+    alert("Logged out successfully!");
+    window.location.href = "login.html";
+}
+</script>
 </body>
 </html>
 

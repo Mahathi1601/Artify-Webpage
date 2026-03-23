@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up | KalaaNest</title>
+    <title>Sign Up | Artify</title>
     <link rel ="stylesheet" href="enter.css"/>
 </head>
 <body>
@@ -74,21 +74,40 @@ including mandalas, sketches, and paintings. Each piece is created with passion 
 
 </footer>
     <script>
-        function signup(){
-    const email = document.getElementById('email').value.trim();
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
-    if(!email||!username||!password){
-        alert('Please fill all fields');
+       async function signup() {
+    const name = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!name || !email || !password) {
+        alert("Please fill all fields");
         return;
     }
-    const user = { email , username , password};
-    localStorage.setItem('userData',JSON.stringify(user));
-    localStorage.setItem('storedData',JSON.stringify({username}));
-    alert('Account created successfully!');
-    window.location.href = 'profile.html';
+
+    try {
+        const res = await fetch("http://localhost:5000/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await res.json();
+        console.log(data);
+
+        alert("User Registered Successfully!");
+
+        // redirect after signup
+        window.location.href = "login.html";
+
+    } catch (err) {
+        console.log(err);
+        alert("Error connecting to server");
     }
+}
     </script>
     <script src="auth.js"></script>
+    
 </body>
 </html>
