@@ -244,40 +244,49 @@ including mandalas, sketches, and paintings. Each piece is created with passion 
 
 </footer>
 <script>
-function placeOrder(){
+async function placeOrder() {
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
-    if(cart.length === 0){
-        alert("Cart is empty!");
-        return;
-    }
+    const total = cartItems.reduce((sum, item) => 
+        sum + (item.price * item.qty), 0);
 
-    // CREATE ORDER
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-    let newOrder = {
-        id: "ORD" + Date.now(),
-        date: new Date().toDateString(),
-        items: cart.map(item => ({
-            name: item.name,
-            price: item.price,
-            qty: item.quantity,
-            image: item.img
-        }))
+    const orderData = {
+        id: Date.now(),  // ✅ ADD HERE
+        userId: localStorage.getItem("userId"),
+        items: cartItems,
+        totalAmount: total,
+        paymentMethod: "UPI",  // or dynamic
+        paymentStatus: "Paid",
+        date: new Date().toISOString()
     };
 
-    orders.push(newOrder);
+    // 🔥 SEND TO BACKEND
+    try {
+        const res = await fetch("http://localhost:5000/api/orders/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderData)
+        });
 
-    localStorage.setItem("orders", JSON.stringify(orders));
+        const data = await res.json();
 
-    // CLEAR CART
-    localStorage.removeItem("cart");
+        if (res.ok) {
+            alert("Order placed successfully!");
 
-    alert("🎉 Order Placed Successfully!");
+            // clear cart
+            localStorage.removeItem("cart");
 
-    window.location.href = "orders.html";
+            window.location.href = "orders.html";
+        }
+
+    } catch (err) {
+        console.error(err);
+    }
 }
+
 function switchPayment(){
     let method = document.querySelector('input[name="method"]:checked').value;
 
@@ -295,6 +304,7 @@ function switchPayment(){
         document.getElementById("codForm").style.display = "block";
     }
 }
+
 </script>
 
 </body>

@@ -281,25 +281,45 @@ including mandalas, sketches, and paintings. Each piece is created with passion 
 </footer>
 <script>
 const container = document.getElementById("ordersContainer");
-
-async function renderOrders() {
+async function placeOrder(orderData) {
     try {
-        const res = await fetch("http://localhost:5000/api/orders");
-        const orders = await res.json();
+        const res = await fetch("http://localhost:5000/api/orders/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderData)
+        });
 
-        if (!orders || orders.length === 0) {
-            renderEmpty();
-            return;
+        const data = await res.json();
+
+        if (res.ok) {
+            alert("Order placed successfully!");
+
+            // OPTIONAL: also store locally (for UI speed)
+            let orders = JSON.parse(localStorage.getItem("orders")) || [];
+            orders.push(data.order);
+            localStorage.setItem("orders", JSON.stringify(orders));
+
+            window.location.href = "orders.html";
         }
-
-        container.innerHTML = orders
-            .slice()
-            .reverse()
-            .map(createOrderCard)
-            .join("");
 
     } catch (err) {
         console.error(err);
+    }
+}
+
+// GET DATA
+async function getOrders() {
+    try {
+        const userId = localStorage.getItem("userId");
+
+        const res = await fetch(`http://localhost:5000/api/orders/user/${userId}`);
+        return await res.json();
+
+    } catch (err) {
+        console.error(err);
+        return [];
     }
 }
 
@@ -351,7 +371,7 @@ function createOrderCard(order) {
 
             <div>
                 <span>ORDER ID</span><br>
-                <strong>#${order._id}</strong>
+                <strong>#${order.id}</strong>
             </div>
 
             <div>
@@ -386,6 +406,23 @@ function renderEmpty() {
         <button onclick="window.location.href='store.html'">Browse Gallery</button>
     </div>
     `;
+}
+
+// MAIN RENDER
+async function renderOrders() {
+
+    const orders = await getOrders();
+
+    if (!orders || orders.length === 0) {
+        renderEmpty();
+        return;
+    }
+
+    container.innerHTML = orders
+        .slice()
+        .reverse()
+        .map(createOrderCard)
+        .join("");
 }
 
 // INIT
