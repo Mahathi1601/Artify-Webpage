@@ -418,31 +418,8 @@ function checkout(){
         return;
     }
 
-    // CREATE ORDER
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-    let newOrder = {
-        id: "ORD" + Date.now(),
-        date: new Date().toDateString(),
-        items: cart.map(item => ({
-            name: item.name,
-            price: item.price,
-            qty: item.quantity,
-            image: item.image
-        }))
-    };
-
-    orders.push(newOrder);
-
-    localStorage.setItem("orders", JSON.stringify(orders));
-
-    // CLEAR CART
-    localStorage.removeItem("cart");
-
-    alert("Order placed successfully!");
-
-    // GO TO ORDERS PAGE
-    window.location.href = "orders.html";
+    // 👉 Redirect to payment page instead
+    window.location.href = "payment.html";
 }
 </script>
 <script src="app.js"></script>

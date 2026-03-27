@@ -282,9 +282,25 @@ including mandalas, sketches, and paintings. Each piece is created with passion 
 <script>
 const container = document.getElementById("ordersContainer");
 
-// GET DATA
-function getOrders() {
-    return JSON.parse(localStorage.getItem("orders")) || [];
+async function renderOrders() {
+    try {
+        const res = await fetch("http://localhost:5000/api/orders");
+        const orders = await res.json();
+
+        if (!orders || orders.length === 0) {
+            renderEmpty();
+            return;
+        }
+
+        container.innerHTML = orders
+            .slice()
+            .reverse()
+            .map(createOrderCard)
+            .join("");
+
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 // FORMAT DATE (clean)
@@ -335,7 +351,7 @@ function createOrderCard(order) {
 
             <div>
                 <span>ORDER ID</span><br>
-                <strong>#${order.id}</strong>
+                <strong>#${order._id}</strong>
             </div>
 
             <div>
@@ -370,23 +386,6 @@ function renderEmpty() {
         <button onclick="window.location.href='store.html'">Browse Gallery</button>
     </div>
     `;
-}
-
-// MAIN RENDER
-function renderOrders() {
-
-    const orders = getOrders();
-
-    if (orders.length === 0) {
-        renderEmpty();
-        return;
-    }
-
-    container.innerHTML = orders
-        .slice()          // avoid mutation
-        .reverse()        // latest first
-        .map(createOrderCard)
-        .join("");
 }
 
 // INIT

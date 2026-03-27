@@ -5,23 +5,28 @@ require("dotenv").config();
 
 const app = express();
 
+// ✅ MIDDLEWARE
 app.use(cors());
 app.use(express.json());
 
-// 🔥 CONNECT ROUTES FIRST
+// 🔥 CONNECT ROUTES
 const authRoutes = require("./routes/auth");
+const orderRoutes = require("./routes/order");   // ✅ ADDED
+
 app.use("/api/auth", authRoutes);
+app.use("/api", orderRoutes);                    // ✅ ADDED
 
 // 🔥 CONNECT DATABASE
 mongoose.connect(process.env.MONGO_URL)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+.then(() => console.log("✅ MongoDB Connected"))
+.catch(err => console.log("❌ DB Error:", err));
 
+// ✅ TEST ROUTE
 app.get("/", (req, res) => {
-    res.send("Artify Backend Running");
+    res.send("🚀 Artify Backend Running");
 });
 
-// 🔥 START SERVER AT LAST
+// 🔥 START SERVER
 app.listen(5000, () => {
-    console.log("Server running on port 5000");
+    console.log("🔥 Server running on http://localhost:5000");
 });
