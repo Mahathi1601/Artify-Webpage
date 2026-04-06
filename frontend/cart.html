@@ -414,12 +414,12 @@ function checkout(){
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     if(cart.length === 0){
-        alert("Cart is empty!");
+        document.getElementById("cart-items").innerHTML = "<h3>Your cart is empty</h3>";
         return;
     }
 
     // 👉 Redirect to payment page instead
-    window.location.href = "payment.html";
+    window.location.href = "payments.html";
 }
 </script>
 <script src="app.js"></script>

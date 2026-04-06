@@ -188,6 +188,12 @@
     </div>
 
     <button class="btn" onclick="placeOrder()">Place Order</button>
+    <p id="successMsg" style="
+    color:#1abc9c;
+    font-size:18px;
+    text-align:center;
+    margin-top:15px;
+"></p>
 </div>
 <footer class="footer">
 
@@ -246,44 +252,44 @@ including mandalas, sketches, and paintings. Each piece is created with passion 
 <script>
 async function placeOrder() {
 
+    // ✅ check button working
+   // alert("Button clicked");
+
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
     const total = cartItems.reduce((sum, item) => 
-        sum + (item.price * item.qty), 0);
+        sum + (item.price * item.quantity), 0);
 
     const orderData = {
-        id: Date.now(),  // ✅ ADD HERE
-        userId: localStorage.getItem("userId"),
-        items: cartItems,
-        totalAmount: total,
-        paymentMethod: "UPI",  // or dynamic
-        paymentStatus: "Paid",
-        date: new Date().toISOString()
-    };
+    userId: localStorage.getItem("userId"),
+    items: cartItems,
+    totalAmount: total
+};
 
-    // 🔥 SEND TO BACKEND
     try {
-        const res = await fetch("http://localhost:5000/api/orders/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(orderData)
-        });
+        const res = await fetch("http://localhost:5500/api/orders", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+    },
+    body: JSON.stringify(orderData)
+});
 
-        const data = await res.json();
+const data = await res.json();
+console.log(data);   // 👈 ADD THIS
 
-        if (res.ok) {
-            alert("Order placed successfully!");
-
-            // clear cart
-            localStorage.removeItem("cart");
-
-            window.location.href = "orders.html";
-        }
+if (res.ok) {
+    alert("✅ Order Successfully Placed!");
+    localStorage.removeItem("cart");
+    window.location.href = "orders.html";
+} else {
+    alert("❌ " + (data.message || "Order Failed"));
+}
 
     } catch (err) {
         console.error(err);
+        alert("⚠️ Server not working");
     }
 }
 

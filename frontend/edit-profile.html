@@ -270,43 +270,59 @@ document.getElementById("profilePic").addEventListener("change", function(e){
 async function updateProfile() {
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
     const username = document.getElementById("username").value;
     const phone = document.getElementById("phone").value;
     const address = document.getElementById("address").value;
-    const password = document.getElementById("password").value;
 
-    let user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
 
-    if (!user || !user._id) {
-        alert("User not found. Please login again.");
+    if (!token) {
+        alert("Please login again");
         return;
     }
 
     try {
-        const res = await fetch(`http://localhost:5000/api/auth/update/${user._id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name,
-                email,
-                username,
-                phone,
-                address,
-                profilePic: profilePicBase64 || user.profilePic,
-                password: password || undefined
-            })
-        });
+        const bodyData = {
+    name,
+    email,
+    username,
+    phone,
+    address
+};
 
-        const updatedUser = await res.json();
+// only send password if entered
+if (password && password.trim() !== "") {
+    bodyData.password = password;
+}
 
-        // ✅ update localStorage also
-        localStorage.setItem("user", JSON.stringify(updatedUser));
+const res = await fetch("http://localhost:5500/api/users/profile", {
+    method: "PUT",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify(bodyData)
+});
 
-        alert("Profile Updated in Database ✅");
+        const data = await res.json();
 
-        window.location.href = "profile.html";
+        if (res.ok) {
+            alert("Profile Updated Successfully ✅");
+
+            let oldUser = JSON.parse(localStorage.getItem("user"));
+
+const updatedUser = {
+    ...oldUser,
+    ...data
+};
+
+localStorage.setItem("user", JSON.stringify(updatedUser));
+
+            window.location.href = "profile.html";
+        } else {
+            alert(data.message || "Update failed ❌");
+        }
 
     } catch (err) {
         console.log(err);

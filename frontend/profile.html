@@ -365,32 +365,49 @@ including mandalas, sketches, and paintings. Each piece is created with passion 
 <script src="app.js"></script>
 <script src="auth.js"></script>
 <script>
-window.onload = function () {
-    let user = JSON.parse(localStorage.getItem("user"));
+window.onload = async function () {
 
-// protect page
-if (!user) {
-    window.location.href = "login.html";
-} else {
+    const token = localStorage.getItem("token");
 
-    document.getElementById("profile-name").innerText = user.name || "No Name";
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
 
-    // ✅ FIXED USERNAME
-    document.getElementById("profile-username").innerText = user.username || "No Username";
+    try {
+        const res = await fetch("http://localhost:5500/api/users/profile", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token   // ✅ IMPORTANT
+            }
+        });
 
-    document.getElementById("profile-email").innerText = user.email || "No Email";
-    document.getElementById("profile-phone").innerText = user.phone || "Not provided";
-    document.getElementById("profile-address").innerText = user.address || "Not provided";
+        const user = await res.json();
 
-    document.getElementById("profile-pic").src =
-        user.profilePic || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+        // ✅ Update UI from backend data
+        document.getElementById("profile-name").innerText = user.name;
+        document.getElementById("profile-email").innerText = user.email;
 
-    document.getElementById("hi").innerText = `Hi, ${user.name || "User"} 👋`;
-}
-}
+        document.getElementById("profile-username").innerText =
+            user.username || "No Username";
+
+        document.getElementById("profile-phone").innerText =
+            user.phone || "Not provided";
+
+        document.getElementById("profile-address").innerText =
+            user.address || "Not provided";
+
+        document.getElementById("hi").innerText = `Hi, ${user.name} 👋`;
+
+    } catch (err) {
+        console.log(err);
+        alert("Error loading profile ❌");
+    }
+};
 // logout
 function logout() {
     localStorage.removeItem("user");
+    localStorage.removeItem("token"); // ✅ ADD THIS
     alert("Logged out successfully!");
     window.location.href = "login.html";
 }

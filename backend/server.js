@@ -1,31 +1,45 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-require("dotenv").config();
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const connectDB = require('./config/db');
+const { errorHandler } = require('./middleware/errorMiddleware');
+
+// Route imports
+const userRoutes = require('./routes/userRoutes');
+const productRoutes = require('./routes/productRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
+
+// Load env vars
+dotenv.config();
+
+// Connect to database
+connectDB();
 
 const app = express();
 
+// Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // Body parser
 
-// 🔥 CONNECT ROUTES FIRST
-const authRoutes = require("./routes/auth");
-app.use("/api/auth", authRoutes);
+// Mount routes
+app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/payment', paymentRoutes);
 
-// 🔥 CONNECT DATABASE
-mongoose.connect(process.env.MONGO_URL)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
-
-app.get("/", (req, res) => {
-    res.send("Artify Backend Running");
+// General route for unmatched endpoints
+app.get('/', (req, res) => {
+  res.send('Artify API is running...');
 });
 
-// 🔥 START SERVER AT LAST
-app.listen(5000, () => {
-    console.log("Server running on port 5000");
-});
+// Custom error handling middleware
+app.use(errorHandler);
 
-// 🔥 ADD THIS
-const orderRoutes = require("./routes/orders");
-app.use("/api/orders", orderRoutes);
+const PORT = process.env.PORT || 5500;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

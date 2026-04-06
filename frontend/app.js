@@ -173,7 +173,7 @@ function checkout(){
     orders.push(newOrder);
     localStorage.setItem("orders",JSON.stringify(orders));
 
-    alert("Order placed successfully!");
+    //alert("Order placed successfully!");
 
     localStorage.removeItem("cart");
 
