@@ -312,14 +312,37 @@ async function placeOrder(orderData) {
 // GET DATA
 async function getOrders() {
     try {
-        const userId = localStorage.getItem("userId");
-
         const res = await fetch(`http://localhost:5500/api/orders/myorders`, {
-    headers: {
-        "Authorization": "Bearer " + localStorage.getItem("token")
-    }
-});
-        return await res.json();
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        });
+        if (res.status === 401) {
+            alert("Session expired. Please log in again.");
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+            return [];
+        }
+
+        const backendOrders = await res.json();
+        
+        if (!Array.isArray(backendOrders)) {
+            console.error("Backend error:", backendOrders);
+            return [];
+        }
+
+        // Map backend format to frontend format
+        return backendOrders.map(o => ({
+            id: o._id,
+            date: o.createdAt,
+            items: (o.orderItems || []).map(item => ({
+                name: item.name,
+                qty: item.quantity,
+                image: item.image,
+                price: item.price
+            })),
+            totalPrice: o.totalPrice
+        }));
 
     } catch (err) {
         console.error(err);
@@ -364,7 +387,7 @@ function createProductHTML(item) {
 // CREATE ORDER CARD
 function createOrderCard(order) {
 
-    const total = calculateTotal(order.items);
+    const total = order.totalPrice || calculateTotal(order.items);
 
     const itemsHTML = order.items.map(createProductHTML).join("");
 

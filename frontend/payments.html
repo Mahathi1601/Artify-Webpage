@@ -261,10 +261,15 @@ async function placeOrder() {
         sum + (item.price * item.quantity), 0);
 
     const orderData = {
-    userId: localStorage.getItem("userId"),
-    items: cartItems,
-    totalAmount: total
-};
+        orderItems: cartItems.map(item => ({
+            name: item.name,
+            quantity: item.quantity,
+            image: item.img,
+            price: item.price,
+            product: item.id
+        })),
+        totalPrice: total
+    };
 
     try {
         const res = await fetch("http://localhost:5500/api/orders", {

@@ -163,22 +163,7 @@ function checkout(){
         return;
     }
 
-    const orders = JSON.parse(localStorage.getItem("orders"))||[];
-
-    const newOrder = {
-        items:[...cart],
-        date:new Date().toLocaleString()
-    };
-
-    orders.push(newOrder);
-    localStorage.setItem("orders",JSON.stringify(orders));
-
-    //alert("Order placed successfully!");
-
-    localStorage.removeItem("cart");
-
-    updateCartCount();
-
+    // Rely exclusively on payments page and backend now
     window.location.href="payments.html";
 }
 
