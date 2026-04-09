@@ -260,6 +260,12 @@ async function placeOrder() {
     const total = cartItems.reduce((sum, item) => 
         sum + (item.price * item.quantity), 0);
 
+    let methodValue = document.querySelector('input[name="method"]:checked').value;
+    let paymentMethod = 'COD';
+    if(methodValue === 'card') paymentMethod = 'Card';
+    else if(methodValue === 'upi') paymentMethod = 'UPI';
+    else if(methodValue === 'cod') paymentMethod = 'COD';
+
     const orderData = {
         orderItems: cartItems.map(item => ({
             name: item.name,
@@ -268,11 +274,12 @@ async function placeOrder() {
             price: item.price,
             product: item.id
         })),
-        totalPrice: total
+        totalPrice: total,
+        paymentMethod: paymentMethod
     };
 
     try {
-        const res = await fetch("http://localhost:5500/api/orders", {
+        const res = await fetch("https://artify-2iq3.onrender.com/orders", {
     method: "POST",
     headers: {
         "Content-Type": "application/json",

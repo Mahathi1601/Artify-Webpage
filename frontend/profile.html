@@ -375,7 +375,7 @@ window.onload = async function () {
     }
 
     try {
-        const res = await fetch("http://localhost:5500/api/users/profile", {
+        const res = await fetch("https://artify-2iq3.onrender.com/api/users/profile", {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + token   // ✅ IMPORTANT

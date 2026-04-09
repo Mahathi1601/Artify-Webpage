@@ -2,20 +2,26 @@ const gallery = document.getElementById("gallery");
 const cartItems = document.getElementById("cart-items");
 const totalPrice = document.getElementById("total-price");
 
-const artItems = [
-    {id:1 , name :"Lotus Mandala art" , price:299 , img:"1.jpg"},
-    {id:2 , name :"Dog Mandala art" , price:299 , img:"2.jpg"},
-    {id:3 , name :"Girl Mandala art" , price:299 , img:"3.jpg"},
-    {id:4 , name :"Deer Mandala art" , price:299 , img:"4.jpg"},
-    {id:5 , name :"Wolf Mandala art" , price:399 , img:"5.jpg"},
-    {id:6 , name :"Lord Mandala art" , price:399 , img:"6.jpg"},
-    {id:7 , name :"Tribal Mandala art" , price:399 , img:"7.jpg"},
-    {id:8 , name :"Seasons Mandala art" , price:399 , img:"8.jpg"},
-    {id:9 , name :"Swan Mandala art" , price:399 , img:"9.jpg"},
-    {id:10 , name :"Dog Pencil Sketch" , price:149 , img:"p1.jpg"},
-    {id:11, name :"Deer Pencil Sketch" , price:299 , img:"p2.jpg"},
-    {id:12 , name :"Customisable Pencil Sketch" , price:499 , img:"p3.jpg"},
-];
+let artItems = [];
+
+async function fetchProducts() {
+    try {
+        const response = await fetch('https://artify-2iq3.onrender.com/api/products');
+        if (!response.ok) throw new Error('Failed to fetch products');
+        const data = await response.json();
+        artItems = data.map(item => ({
+            id: item._id,
+            name: item.title,
+            price: item.price,
+            img: item.image
+        }));
+        if(document.getElementById("gallery")){
+            modifyGallery();
+        }
+    } catch(err) {
+        console.error('Error loading products from DB:', err);
+    }
+}
 
 /* ❤️ WISHLIST */
 function getWishlist(){
@@ -56,14 +62,14 @@ function modifyGallery(){
         <div class="image-box">
             <img src="${item.img}" alt="${item.name}">
             <div class="heart-icon ${isWishlisted(item) ? 'active' : ''}" 
-                 onclick="toggleWishlist(${item.id})">
+                 onclick="toggleWishlist('${item.id}')">
                 <i class="${isWishlisted(item) ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
             </div>
         </div>
 
         <h3>${item.name}</h3>
         <p>₹${item.price}</p>
-        <button onclick="addToCart(${item.id})">Add to Cart</button>
+        <button onclick="addToCart('${item.id}')">Add to Cart</button>
         `;
 
         gallery.appendChild(card);
@@ -169,10 +175,6 @@ function checkout(){
 
 /* ✅ INIT */
 document.addEventListener("DOMContentLoaded", () => {
-
-    if(document.getElementById("gallery")){
-        modifyGallery();
-    }
-
+    fetchProducts();
     updateCartCount();
 });

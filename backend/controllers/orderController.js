@@ -6,7 +6,7 @@ const Cart = require('../models/Cart');
 // @access  Private
 const addOrderItems = async (req, res) => {
   try {
-    const { orderItems, totalPrice } = req.body;
+    const { orderItems, totalPrice, paymentMethod } = req.body;
 
     if (orderItems && orderItems.length === 0) {
       res.status(400);
@@ -16,6 +16,7 @@ const addOrderItems = async (req, res) => {
         orderItems,
         user: req.user._id,
         totalPrice,
+        paymentMethod: paymentMethod || 'COD' // Default to COD if not provided
       });
 
       const createdOrder = await order.save();

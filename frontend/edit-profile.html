@@ -296,7 +296,7 @@ if (password && password.trim() !== "") {
     bodyData.password = password;
 }
 
-const res = await fetch("http://localhost:5500/api/users/profile", {
+const res = await fetch("https://artify-2iq3.onrender.com/api/users/profile", {
     method: "PUT",
     headers: {
         "Content-Type": "application/json",

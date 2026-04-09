@@ -30,6 +30,12 @@ const orderSchema = mongoose.Schema({
   },
   paidAt: {
     type: Date
+  },
+  paymentMethod: {
+    type: String,
+    required: true,
+    enum: ['Card', 'UPI', 'COD'],
+    default: 'COD'
   }
 }, {
   timestamps: true
